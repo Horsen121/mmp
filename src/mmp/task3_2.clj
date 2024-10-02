@@ -15,27 +15,29 @@
     )
     )
   )
+(defn my-future
+  [pred coll]
+  (future (doall (filter pred  coll)))
+  )
 
 (defn pfilter
-  [pred h n]
-    (->>
-      (iterate inc 0)
-      (take n)
-      (my-split h)
-      (map #(future (filter pred %)))
-      (doall)
-      (map deref)
-      (doall)
-      (reduce concat)
-      )
+  [pred start h n ccount]
+  (let [input-coll (take n (iterate inc start))
+        parts (my-split (/ n 10) input-coll)
+        coll (->>
+               (map #(my-future pred %) parts)
+               (doall)
+               (map deref)
+               (doall)
+               (reduce concat)
+               )
+        ]
+    (concat coll (if (< (+ ccount (count coll)) n)
+      (pfilter pred (+ start n) h n (+ ccount (count coll)))
+      (list)
+      ))
     )
+  )
 
 (def N 100)
 (def pred (fn [x] (Thread/sleep 1) (even? x)))
-
-(time (doall (filter pred (range N))))
-(time (doall (filter pred (range N))))
-(time (doall (filter pred (range N))))
-(time (pfilter pred (/ N 10) N))
-(time (pfilter pred (/ N 10) N))
-(time (pfilter pred (/ N 10) N))

@@ -11,11 +11,10 @@
   "Squire from a to b"
   [f a b h]
   (if (< a b)
-    (* (reduce +
+      (reduce +
                0
                (map #(trap f % h) (range a b h))      ;(+ a h)
                )
-       h)
     "a must be less then b"))
 
 (def S-mem (memoize S))
