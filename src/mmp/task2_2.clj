@@ -1,5 +1,4 @@
 (ns mmp.task2-2
-  (:require [clojure.math :as math])
   (:gen-class))
 
 (defn trap
@@ -18,46 +17,19 @@
             )
     "a must be less then b"))
 
-(defn my-split
-  [n coll]
-  (if (not-empty coll)
-    (let [first (take n coll)
-          second (drop n coll)]
-      (if (not-empty first)
-        (cons first (my-split n second))
-        (list)
-        )
-      )
-    )
-  )
-(defn my-future
-  [f h coll]
-    (future (doall (map #(trap f % h) coll)))
+(defn- my-iterator
+  [[step_sum index] f h]
+  [(+ step_sum (trap f (* h index) h))
+  (inc index)]
   )
 (defn S-flow
-  "Squire with flow"
-  [f a h n]
-  (let [coll (take n (iterate (partial + h) a))
-        parts (my-split (/ n 10) coll)
-        ]
-  (->>
-    (map #(my-future f h %) parts)
-    (doall)
-    (map deref)
-    (doall)
-    (reduce concat)
-    (reduce +)
+  [f a b h]
+  (let [coll (map first (iterate #(my-iterator % f h) [a 0]))]
+    (nth coll (/ b h))
     )
   )
-  )
 
-(def a 2)
-(def b 3)
-(def h 0.01)
-(def my-f (fn [t] (* t t))) ; (double (/ 1 (math/log t)))
-
-
-(time (S my-f a b h))
-(time (S my-f a b h))
-(time (S-flow my-f a h (/ (- b a) h)))
-(time (S-flow my-f a h (/ (- b a) h)))
+(def a 0)
+(def b 5)
+(def h 0.1)
+(def my-f (fn [t] (Thread/sleep 1) (* t t)))

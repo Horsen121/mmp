@@ -5,15 +5,15 @@
 (test/deftest task3-2-tests
   (test/testing "Testing task3.2"
     (test/is (= (doall (take N (filter pred (range))))
-                (doall (pfilter pred 0 (/ N 10) N 0))))
+                (doall (take N (pfilter pred (range) (/ N 10))))
+                ))
     (println "Filter")
-    (time (doall (filter pred (range N))))
-    (time (doall (filter pred (range N))))
-    (time (doall (filter pred (range N))))
+    (time (doall (take N (filter pred (range)))))
+    (time (doall (take N (filter pred (range)))))
     (println "Pfilter")
-    (time (doall (pfilter pred 0 (/ N 10) N 0)))
-    (time (doall (pfilter pred 0 (/ N 10) N 0)))
-    (time (doall (pfilter pred 0 (/ N 10) N 0)))
+    (time (take N (pfilter pred (range) (/ N 10))))
+    (time (doall (take N (pfilter pred (range) (/ N 10)))))
+    (time (doall (take N (pfilter pred (range) (/ N 10)))))
     ))
 
 (test/run-tests 'mmp.task3-2-tests)

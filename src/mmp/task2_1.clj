@@ -1,5 +1,4 @@
 (ns mmp.task2-1
-  (:require [clojure.math :as math])
   (:gen-class))
 
 (defn trap
@@ -13,24 +12,14 @@
   (if (< a b)
       (reduce +
                0
-               (map #(trap f % h) (range a b h))      ;(+ a h)
+               (map #(trap f % h) (range a b h))
                )
     "a must be less then b"))
 
-(def S-mem (memoize S))
 (def a 0)
-(def b 3000)
-(def h 0.01)
-(def my-f (fn [t] (* t t)))     ; double (/ 1 (math/log t))
+(def b 5)
+(def h 0.1)
+(def my-f (fn [t] (Thread/sleep 1) (* t t)))
 
-
-(time (S my-f a b h))
-(time (S my-f a b h))
-(time (S my-f a b h))
-(time (S my-f a (+ b 5) h))
-(time (S my-f a (+ b 6) h))
-(println)
-(time (S-mem my-f a b h))
-(time (S-mem my-f a b h))
-(time (S-mem my-f a (+ b 5) h))
-(time (S-mem my-f a (+ b 6) h))
+(def S-mem (memoize S))
+(def my-f-mem (memoize my-f))

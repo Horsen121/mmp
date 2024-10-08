@@ -1,4 +1,4 @@
-(ns task1.task1-3
+(ns mmp.task1-3
   (:gen-class))
 
 (defn my-map

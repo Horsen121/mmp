@@ -1,6 +1,5 @@
-(ns task1.task1-4
-  (:require [task1.task1-3])
-  (:import [task1.task1-3 my-map my-filter]))
+(ns mmp.task1-4
+  (:require [mmp.task1-3  :refer :all]))
 
 
 (def my-list  (list "a" "b" "c"))

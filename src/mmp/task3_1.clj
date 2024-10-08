@@ -32,13 +32,3 @@
 
 (def N 100)
 (def pred (fn [x] (Thread/sleep 1) (even? x)))
-
-;(time (doall (filter pred (range N))))
-;(time (doall (filter pred (range N))))
-;(time (doall (filter pred (range N))))
-;(println)
-;(time (doall (pfilter pred (range N) (/ N 10))))
-;(time (doall (pfilter pred (range N) (/ N 10))))
-;(time (doall (pfilter pred (range N) (/ N 10))))
-;(println)
-;(time (my-split 10 (range N)))
